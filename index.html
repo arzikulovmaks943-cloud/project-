@@ -1,3 +1,72 @@
 index.html
-<h1>мой первый проект</h1>
-<p>он работает!??</p>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: radial-gradient(circle, #1a001f, #000);
+  font-family: Arial;
+}
+
+#score {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  color: white;
+  font-size: 20px;
+  z-index: 10;
+}
+
+.heart {
+  position: absolute;
+  font-size: 24px;
+  cursor: pointer;
+  user-select: none;
+  animation: fall 4s linear forwards;
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(-50px);
+  }
+  to {
+    transform: translateY(110vh);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="score">Очки: 0 ❤️</div>
+
+<script>
+let score = 0;
+
+function spawnHeart() {
+  let heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "❤️";
+
+  heart.style.left = Math.random() * window.innerWidth + "px";
+
+  heart.onclick = () => {
+    score++;
+    document.getElementById("score").innerText = "Очки: " + score + " ❤️";
+    heart.remove();
+  };
+
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 4000);
+}
+
+setInterval(spawnHeart, 500);
+</script>
+
+</body>
+</html>
