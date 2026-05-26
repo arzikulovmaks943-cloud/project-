@@ -14,57 +14,96 @@ body {
   font-family: Arial;
 }
 
-/* кнопка */
+/* БОЛЬШАЯ КНОПКА */
 #startBtn {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  padding: 15px 30px;
-  font-size: 18px;
+  padding: 40px 70px;
+  font-size: 40px;
   border: none;
-  border-radius: 25px;
+  border-radius: 50px;
   background: #ff2d55;
   color: white;
   cursor: pointer;
-  box-shadow: 0 0 20px #ff2d55;
+  box-shadow: 0 0 30px #ff2d55;
   z-index: 100;
 }
 
 /* частицы */
 .particle {
   position: absolute;
-  font-size: 3px;
+  font-size: 6px;
   color: #ff4d6d;
   opacity: 0.9;
   pointer-events: none;
-  transition: all 1.5s ease;
+  transition: all 1.8s ease;
 }
 
-/* скрыть кнопку */
-.hide {
-  display: none;
+/* текст в центре */
+.centerText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  color: white;
+  z-index: 10;
+  opacity: 0;
+  transition: 1s;
+}
+
+.centerText h1 {
+  font-size: 50px;
+  color: #ff4d6d;
+  text-shadow: 0 0 25px #ff4d6d;
+  margin: 0;
+}
+
+.centerText p {
+  margin-top: 10px;
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+/* пульсация сердца */
+.pulse {
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 </style>
 </head>
 
 <body>
 
-<button id="startBtn">нажми 💖</button>
+<button id="startBtn">ОТКРЫТЬ 💖</button>
+
+<div class="centerText" id="text">
+  <h1>I LOVE YOU 💖</h1>
+  <p>ELNARA ✨</p>
+</div>
 
 <script>
 
 const btn = document.getElementById("startBtn");
+const text = document.getElementById("text");
 
 btn.onclick = start;
 
 function start() {
-  btn.classList.add("hide");
+
+  btn.style.display = "none";
 
   let particles = [];
-  let count = 300;
+  let count = 900; // больше частиц (как ты просил x3)
 
-  // создаём шум
+  // СОЗДАЁМ ШУМ ПО ВСЕМУ ЭКРАНУ
   for (let i = 0; i < count; i++) {
 
     let el = document.createElement("div");
@@ -88,15 +127,15 @@ function start() {
     particles.push(el);
   }
 
-  // хаос движение
+  // ХАОС ДВИЖЕНИЕ
   let chaos = setInterval(() => {
     particles.forEach(p => {
       p.style.left = Math.random() * window.innerWidth + "px";
       p.style.top = Math.random() * window.innerHeight + "px";
     });
-  }, 200);
+  }, 150);
 
-  // сборка в сердце
+  // СБОРКА В СЕРДЦЕ + ТЕКСТ
   setTimeout(() => {
 
     clearInterval(chaos);
@@ -106,18 +145,25 @@ function start() {
 
     particles.forEach((p, i) => {
 
-      let t = i * 0.08;
+      let t = i * 0.07;
 
+      // форма сердца
       let x = 16 * Math.pow(Math.sin(t), 3);
       let y = 13 * Math.cos(t) - 5 * Math.cos(2*t)
               - 2 * Math.cos(3*t) - Math.cos(4*t);
 
-      p.style.left = (cx + x * 10) + "px";
-      p.style.top  = (cy - y * 10) + "px";
+      p.style.left = (cx + x * 12) + "px";
+      p.style.top  = (cy - y * 12) + "px";
 
-      p.style.fontSize = "5px";
+      p.style.fontSize = "6px";
       p.style.opacity = "1";
     });
+
+    // показать текст
+    text.style.opacity = "1";
+
+    // пульсация всего центра
+    text.classList.add("pulse");
 
   }, 3000);
 
