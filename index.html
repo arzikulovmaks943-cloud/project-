@@ -2,70 +2,104 @@ index.html
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>For You 💖</title>
+
 <style>
 body {
   margin: 0;
+  height: 100vh;
   overflow: hidden;
-  background: radial-gradient(circle, #1a001f, #000);
+  background: radial-gradient(circle at center, #1a001f, #000);
   font-family: Arial;
 }
 
-#score {
-  position: fixed;
-  top: 10px;
-  left: 10px;
+/* центр */
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
   color: white;
-  font-size: 20px;
-  z-index: 10;
 }
 
+/* кнопка */
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  background: #ff2d55;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 25px #ff2d55;
+}
+
+/* скрытый подарок */
+#gift {
+  display: none;
+  margin-top: 20px;
+  font-size: 28px;
+  color: #ff4d6d;
+  text-shadow: 0 0 20px #ff4d6d;
+  animation: fade 2s ease-in-out;
+}
+
+/* сердечки */
 .heart {
   position: absolute;
-  font-size: 24px;
-  cursor: pointer;
-  user-select: none;
-  animation: fall 4s linear forwards;
+  color: #ff4d6d;
+  font-size: 16px;
+  animation: float 6s linear forwards;
 }
 
-@keyframes fall {
-  from {
-    transform: translateY(-50px);
-  }
-  to {
-    transform: translateY(110vh);
-  }
+@keyframes float {
+  0% { transform: translateY(100vh); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
 }
 </style>
 </head>
 
 <body>
 
-<div id="score">Очки: 0 ❤️</div>
+<div class="center">
+  <h1>💖 спасибо за то что ты есть</h1>
+
+  <button onclick="openGift()">Открыть подарок</button>
+
+  <div id="gift">
+    I LOVE YOU ❤️<br>
+    ты самая прекрасная ✨
+  </div>
+</div>
 
 <script>
-let score = 0;
 
-function spawnHeart() {
-  let heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerText = "❤️";
+function openGift() {
+  document.getElementById("gift").style.display = "block";
 
-  heart.style.left = Math.random() * window.innerWidth + "px";
+  // поток сердечек
+  setInterval(() => {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "❤️";
 
-  heart.onclick = () => {
-    score++;
-    document.getElementById("score").innerText = "Очки: " + score + " ❤️";
-    heart.remove();
-  };
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.fontSize = (10 + Math.random() * 20) + "px";
 
-  document.body.appendChild(heart);
+    document.body.appendChild(heart);
 
-  setTimeout(() => {
-    heart.remove();
-  }, 4000);
+    setTimeout(() => heart.remove(), 6000);
+  }, 150);
 }
 
-setInterval(spawnHeart, 500);
 </script>
 
 </body>
