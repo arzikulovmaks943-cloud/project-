@@ -1,97 +1,133 @@
 index.html
-<!DOCTYPE html>
-<html lang="en">
+ <!DOCTYPE html>
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Love Heart Animation</title>
+<title>For You 💖</title>
 
 <style>
 body {
   margin: 0;
   overflow: hidden;
-  background: black;
+  height: 100vh;
+  background: radial-gradient(circle at center, #1a001f, #000);
+  font-family: Arial;
 }
 
-/* falling background hearts (like snow) */
-.fall-heart {
+/* центр текст */
+.center {
   position: absolute;
-  color: pink;
-  font-size: 14px;
-  opacity: 0.5;
-  animation: fall linear infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  color: white;
+  z-index: 10;
+}
+
+.center h1 {
+  color: #ff4d6d;
+  font-size: 42px;
+  text-shadow: 0 0 20px #ff4d6d;
+  margin: 0;
+}
+
+.center p {
+  opacity: 0.8;
+}
+
+/* счётчик */
+#score {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: white;
+  font-size: 18px;
+  z-index: 20;
+}
+
+/* большое сердце */
+.big-heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 120px;
+  user-select: none;
+  cursor: pointer;
+  animation: pulse 1.5s infinite;
+}
+
+/* маленькие сердечки */
+.heart {
+  position: absolute;
+  font-size: 18px;
+  color: #ff2d55;
+  animation: fall 4s linear forwards;
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%,-50%) scale(1); }
+  50% { transform: translate(-50%,-50%) scale(1.15); }
+  100% { transform: translate(-50%,-50%) scale(1); }
 }
 
 @keyframes fall {
-  0% { transform: translateY(-10vh); }
-  100% { transform: translateY(110vh); }
-}
-
-/* floating text */
-.word {
-  position: absolute;
-  color: hotpink;
-  font-size: 14px;
-  opacity: 0.9;
-  animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-  0% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-20px) scale(1.2); }
-  100% { transform: translateY(0px) scale(1); }
-}
-
-/* big heart */
-.big-heart {
-  position: absolute;
-  font-size: 120px;
-  color: red;
-  opacity: 0;
-  animation: appear 6s forwards;
-}
-
-@keyframes appear {
-  0% { opacity: 0; transform: scale(0.2); }
-  70% { opacity: 0; }
-  100% { opacity: 1; transform: scale(1); }
+  from { transform: translateY(-50px); opacity: 1; }
+  to { transform: translateY(110vh); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
 
+<div id="score">💖 Любовь: 0</div>
+
+<div class="center">
+  <h1>I LOVE YOU 💖</h1>
+  <p>я люблю тебя, ты во всём справишься ✨</p>
+</div>
+
+<div class="big-heart" onclick="tapHeart()">💘</div>
+
 <script>
-// falling hearts background
-for (let i = 0; i < 60; i++) {
-  let s = document.createElement("div");
-  s.className = "fall-heart";
-  s.innerHTML = "❤";
-  s.style.left = Math.random() * 100 + "vw";
-  s.style.animationDuration = (3 + Math.random() * 5) + "s";
-  s.style.fontSize = (10 + Math.random() * 20) + "px";
-  document.body.appendChild(s);
+
+let score = 0;
+
+/* тап по большому сердцу */
+function tapHeart() {
+  score++;
+  document.getElementById("score").innerText = "💖 Любовь: " + score;
+
+  // эффект маленьких сердечек
+  for (let i = 0; i < 5; i++) {
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "💘";
+
+    h.style.left = (window.innerWidth/2 + (Math.random()*100 - 50)) + "px";
+    h.style.top = (window.innerHeight/2 + (Math.random()*100 - 50)) + "px";
+
+    document.body.appendChild(h);
+
+    setTimeout(() => h.remove(), 4000);
+  }
 }
 
-// floating text
-for (let i = 0; i < 80; i++) {
-  let t = document.createElement("div");
-  t.className = "word";
-  t.innerText = "love you";
-  t.style.left = Math.random() * 100 + "vw";
-  t.style.top = Math.random() * 100 + "vh";
-  t.style.animationDuration = (2 + Math.random() * 3) + "s";
-  document.body.appendChild(t);
-}
+/* постоянные падающие сердечки */
+setInterval(() => {
+  let h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "💘";
 
-// big heart in center
-let big = document.createElement("div");
-big.className = "big-heart";
-big.innerHTML = "❤";
-big.style.left = "50%";
-big.style.top = "50%";
-big.style.transform = "translate(-50%, -50%)";
-document.body.appendChild(big);
+  h.style.left = Math.random() * window.innerWidth + "px";
+
+  document.body.appendChild(h);
+
+  setTimeout(() => h.remove(), 4000);
+}, 300);
+
 </script>
 
 </body>
-</html>
+</html> 
