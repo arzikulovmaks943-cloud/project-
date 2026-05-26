@@ -1,13 +1,97 @@
 index.html
-.info {
- position: absolute;
- top: 20px;
- left: 50%px;
- transform: translateX(-50%);
- color: rgba(255, 255, 255, 0.7);
- font-size: 16px;
- text-align: center;
- pointer-events: none 
- text-shadow: 0 0 5px rgba(255,255,255,0.5);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Heart Animation</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
 }
 
+/* falling background hearts (like snow) */
+.fall-heart {
+  position: absolute;
+  color: pink;
+  font-size: 14px;
+  opacity: 0.5;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10vh); }
+  100% { transform: translateY(110vh); }
+}
+
+/* floating text */
+.word {
+  position: absolute;
+  color: hotpink;
+  font-size: 14px;
+  opacity: 0.9;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.2); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+/* big heart */
+.big-heart {
+  position: absolute;
+  font-size: 120px;
+  color: red;
+  opacity: 0;
+  animation: appear 6s forwards;
+}
+
+@keyframes appear {
+  0% { opacity: 0; transform: scale(0.2); }
+  70% { opacity: 0; }
+  100% { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<script>
+// falling hearts background
+for (let i = 0; i < 60; i++) {
+  let s = document.createElement("div");
+  s.className = "fall-heart";
+  s.innerHTML = "❤";
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.animationDuration = (3 + Math.random() * 5) + "s";
+  s.style.fontSize = (10 + Math.random() * 20) + "px";
+  document.body.appendChild(s);
+}
+
+// floating text
+for (let i = 0; i < 80; i++) {
+  let t = document.createElement("div");
+  t.className = "word";
+  t.innerText = "love you";
+  t.style.left = Math.random() * 100 + "vw";
+  t.style.top = Math.random() * 100 + "vh";
+  t.style.animationDuration = (2 + Math.random() * 3) + "s";
+  document.body.appendChild(t);
+}
+
+// big heart in center
+let big = document.createElement("div");
+big.className = "big-heart";
+big.innerHTML = "❤";
+big.style.left = "50%";
+big.style.top = "50%";
+big.style.transform = "translate(-50%, -50%)";
+document.body.appendChild(big);
+</script>
+
+</body>
+</html>
