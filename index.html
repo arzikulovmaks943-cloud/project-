@@ -1,17 +1,120 @@
 index.html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I Love You animation Using HTML and CSS</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>For You 💖</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  height: 100vh;
+  background: radial-gradient(circle, #1a001f, #000);
+  font-family: Arial;
+}
+
+/* кнопка старта */
+#startBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  padding: 15px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  background: #ff2d55;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 20px #ff2d55;
+}
+
+/* текст частиц */
+.particle {
+  position: absolute;
+  font-size: 14px;
+  color: #ff4d6d;
+  opacity: 0.9;
+  pointer-events: none;
+  transition: all 1.5s ease;
+}
+
+/* скрыть кнопку после старта */
+.hide {
+  display: none;
+}
+</style>
 </head>
+
 <body>
- <canvas id="canvas" width="1400" height="600">
-</canvas>
-<!-- js here -->
-    <script src="app.js"></script>
+
+<button id="startBtn">нажми 💖</button>
+
+<script>
+
+const btn = document.getElementById("startBtn");
+
+btn.onclick = start;
+
+function start() {
+  btn.classList.add("hide");
+
+  let particles = [];
+  let count = 250;
+
+  // создаём “шум”
+  for (let i = 0; i < count; i++) {
+
+    let el = document.createElement("div");
+    el.className = "particle";
+
+    el.innerText = Math.random() > 0.5 ? "I LOVE YOU" : "ELNARA 💖";
+
+    el.style.left = Math.random() * window.innerWidth + "px";
+    el.style.top = Math.random() * window.innerHeight + "px";
+
+    document.body.appendChild(el);
+    particles.push(el);
+  }
+
+  // хаотичное движение (эффект мушек)
+  let chaos = setInterval(() => {
+    particles.forEach(p => {
+      p.style.left = Math.random() * window.innerWidth + "px";
+      p.style.top = Math.random() * window.innerHeight + "px";
+    });
+  }, 200);
+
+  // через 3 сек — собираем в сердце
+  setTimeout(() => {
+
+    clearInterval(chaos);
+
+    let centerX = window.innerWidth / 2;
+    let centerY = window.innerHeight / 2;
+
+    particles.forEach((p, i) => {
+
+      let t = i * 0.1;
+
+      // формула сердца
+      let x = 16 * Math.pow(Math.sin(t), 3);
+      let y = 13 * Math.cos(t) - 5 * Math.cos(2*t)
+              - 2 * Math.cos(3*t) - Math.cos(4*t);
+
+      p.style.left = (centerX + x * 10) + "px";
+      p.style.top  = (centerY - y * 10) + "px";
+
+      p.style.fontSize = "12px";
+      p.style.color = "#ff4d6d";
+    });
+
+  }, 3000);
+
+}
+
+</script>
+
 </body>
 </html>
